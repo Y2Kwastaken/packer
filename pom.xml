@@ -33,8 +33,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>sh.miles.csvtoolkit</groupId>
-      <artifactId>csvtoolkit</artifactId>
+      <groupId>sh.miles.prelude</groupId>
+      <artifactId>prelude</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
