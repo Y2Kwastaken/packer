@@ -1,2 +1,4 @@
 /.vscode
 /target
+storage.sqlite
+/.apt_generated
