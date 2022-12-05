@@ -2,9 +2,12 @@ package sh.miles.packer.pack;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.Getter;
 import sh.miles.packer.Utils;
+import sh.miles.packer.units.Weight;
+import sh.miles.packer.units.WeightUnit;
 
 public class Pack implements Serializable {
 
@@ -23,6 +26,16 @@ public class Pack implements Serializable {
     public Pack(final String name, final PackContainer container) {
         this.name = name;
         this.container = container;
+    }
+
+    public Weight getTotalWeight() {
+        final List<PackItem> items = container.getItemsUnsorted();
+        return items.stream().map(PackItem::getWeight).reduce(Weight::add).orElse(new Weight(WeightUnit.POUNDS, 0));
+    }
+
+    public double getTotalCost() {
+        final List<PackItem> items = container.getItemsUnsorted();
+        return items.stream().mapToDouble(PackItem::getCost).sum();
     }
 
     public byte[] toBytes() {

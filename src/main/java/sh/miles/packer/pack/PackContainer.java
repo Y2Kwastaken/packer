@@ -2,7 +2,9 @@ package sh.miles.packer.pack;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import lombok.NonNull;
 
@@ -20,7 +22,7 @@ public class PackContainer implements Serializable {
 
     private final Map<String, PackList> items;
 
-    PackContainer() {
+    public PackContainer() {
         this.items = new HashMap<>();
     }
 
@@ -34,7 +36,6 @@ public class PackContainer implements Serializable {
         if (!items.containsKey(category)) {
             items.put(category, new PackList());
         }
-
         items.get(category).addItem(item);
     }
 
@@ -103,6 +104,34 @@ public class PackContainer implements Serializable {
      */
     public PackList getCategory() {
         return getCategory(DEFAULT_CATEGORY);
+    }
+
+    /**
+     * Get the names of all categories
+     * 
+     * @return the names of all categories
+     */
+    public List<String> getCategories() {
+        return items.keySet().stream().collect(Collectors.toList());
+    }
+
+    /**
+     * Gets the all of the items in the container in a map string category name to
+     * PackList
+     * 
+     * @return all items
+     */
+    public Map<String, PackList> getItems() {
+        return new HashMap<>(this.items);
+    }
+
+    /**
+     * Returns a list of all items in this container not sorted by category
+     * 
+     * @return a list of all items in this container
+     */
+    public List<PackItem> getItemsUnsorted() {
+        return items.values().stream().flatMap(list -> list.getItems().stream()).collect(Collectors.toList());
     }
 
 }

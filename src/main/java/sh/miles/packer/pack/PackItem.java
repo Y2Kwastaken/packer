@@ -24,6 +24,10 @@ public class PackItem implements Serializable {
     private int quantity;
     private double cost;
 
+    public void setBaseCost(final double cost) {
+        this.cost = cost * quantity;
+    }
+
     @Override
     public String toString() {
         return String.format("%s{name=%s|description=%s|link=%s|weight=%s|quantity=%d|cost=%f}",

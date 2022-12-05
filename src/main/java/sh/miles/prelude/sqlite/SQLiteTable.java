@@ -83,6 +83,7 @@ public class SQLiteTable {
                 ps.setObject(i + 1, updates[i].getValue());
             }
             ps.setObject(updates.length + 1, selector.getValue());
+            System.out.println(ps.toString());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -102,6 +103,18 @@ public class SQLiteTable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean exists(final ValuedArgument selector) {
+        try (PreparedStatement ps = this.connection.prepareStatement(SQLiteUtils.buildExistsQuery(name, selector))) {
+            ps.setObject(1, selector.getValue());
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     /**

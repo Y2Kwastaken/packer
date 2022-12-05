@@ -85,6 +85,10 @@ public class CSVFile<T extends IPojo> {
         this.entries.add(entry);
     }
 
+    public void setEntry(final int index, final T entry) {
+        this.entries.set(index, entry);
+    }
+
     /**
      * Writes the CSV file.
      * 

@@ -8,8 +8,8 @@ import java.util.Map;
 
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
-import sh.miles.prelude.sqlite.arg.PrimaryArgument;
 import sh.miles.prelude.sqlite.arg.Argument;
+import sh.miles.prelude.sqlite.arg.PrimaryArgument;
 import sh.miles.prelude.sqlite.arg.ValuedArgument;
 
 @UtilityClass
@@ -49,9 +49,9 @@ public class SQLiteUtils {
                 }
             }
         } else {
-            builder.append("* ");
+            builder.append("*");
         }
-        builder.append("FROM ");
+        builder.append(" FROM ");
         builder.append(tableName);
         builder.append(" WHERE ");
         builder.append(selector.getName());
@@ -75,6 +75,16 @@ public class SQLiteUtils {
         builder.append(" FROM ");
         builder.append(tableName);
         builder.append(";");
+        return builder.toString();
+    }
+
+    public static final String buildExistsQuery(final String tableName, final Argument selector) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT * FROM ")
+                .append(tableName)
+                .append(" WHERE ")
+                .append(selector.getName())
+                .append(" = ?;");
         return builder.toString();
     }
 
@@ -106,19 +116,20 @@ public class SQLiteUtils {
     public static final String buildUpdateQuery(final String tableName, final ValuedArgument selector,
             ValuedArgument... updates) {
         StringBuilder builder = new StringBuilder();
-        builder.append("UPDATE ");
-        builder.append(tableName);
-        builder.append(" SET ");
+        builder.append("UPDATE ")
+                .append(tableName)
+                .append(" SET ");
         for (int i = 0; i < updates.length; i++) {
-            builder.append(updates[i].getName());
-            builder.append(" = ?");
+            final ValuedArgument update = updates[i];
+            builder.append(update.getName())
+                    .append(" = ?");
             if (i < updates.length - 1) {
                 builder.append(", ");
             }
         }
-        builder.append(" WHERE ");
-        builder.append(selector.getName());
-        builder.append(" = ?;");
+        builder.append(" WHERE ")
+                .append(selector.getName())
+                .append(" = ?;");
         return builder.toString();
     }
 

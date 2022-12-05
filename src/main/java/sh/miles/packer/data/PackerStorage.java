@@ -11,7 +11,7 @@ import sh.miles.prelude.sqlite.SQLiteTable;
 
 public class PackerStorage {
 
-    public static final String DATABASE_NAME = "packer.sqlite";
+    public static final String DATABASE_NAME = "storage.sqlite";
     public static final String CSV_NAME = "%s.csv";
 
     boolean useSQLite;
@@ -25,6 +25,11 @@ public class PackerStorage {
 
     public void create(String name) {
         if (this.useSQLite) {
+            try {
+                this.connection = new SQLiteConnection(DATABASE_NAME);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             table = connection.table(name, StorageUtils.PACK_NAME.makePrimary(), StorageUtils.PACK_ARGUMENT);
             table.create();
             return;
@@ -43,6 +48,25 @@ public class PackerStorage {
             StorageUtils.insertBase64PackSQLite(table, name, base64);
         } else {
             StorageUtils.insertBase64PackCSV(csvFile, name, base64);
+        }
+    }
+
+    public void updatePack(Pack pack) {
+        final String name = pack.getName();
+        final String base64 = pack.toBase64();
+        if (this.useSQLite) {
+            StorageUtils.updateBase64PackSQLite(table, name, base64);
+        } else {
+            StorageUtils.updateBase64PackCSV(csvFile, name, base64);
+        }
+    }
+
+    public boolean existsPack(Pack pack){
+        final String name = pack.getName();
+        if (this.useSQLite) {
+            return !StorageUtils.getBase64PackSQLite(table, name).isEmpty();
+        } else {
+            return !StorageUtils.getBase64PackCSV(csvFile, name).isEmpty();
         }
     }
 
