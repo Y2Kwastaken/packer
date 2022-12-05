@@ -33,7 +33,7 @@ public class AddPackItem implements Action {
             return false;
         }
         final String category = categories[categoryIndex];
-        final PackItem item = new PackItem("new item", "", "", new Weight(WeightUnit.POUNDS, 0.0), 0, 0.0);
+        final PackItem item = new PackItem("new item", "", "", new Weight(WeightUnit.OUNCES, 0.0), 0, 0.0);
         pack.getContainer().putItem(category, item);
 
         System.out.println("Opening the item editor...");

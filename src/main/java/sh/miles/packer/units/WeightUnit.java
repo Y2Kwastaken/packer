@@ -18,4 +18,13 @@ public enum WeightUnit {
         this.symbol = symbol;
         this.conversionFactor = conversionFactor;
     }
+
+    public static WeightUnit getUnitFromString(String symbol) {
+        for (WeightUnit unit : WeightUnit.values()) {
+            if (unit.getSymbol().equals(symbol)) {
+                return unit;
+            }
+        }
+        return null;
+    }
 }

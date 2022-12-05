@@ -6,6 +6,7 @@ import lombok.NonNull;
 import sh.miles.packer.data.PackerStorage;
 import sh.miles.packer.pack.Pack;
 import sh.miles.packer.ui.packeditor.actions.AddPackItem;
+import sh.miles.packer.ui.packeditor.actions.ChangeWeightUnit;
 import sh.miles.packer.ui.packeditor.actions.DisplayPackAction;
 import sh.miles.packer.ui.packeditor.actions.EditPackItem;
 import sh.miles.ui.Menu;
@@ -28,6 +29,7 @@ public class PackEditor extends ConsoleMenu {
         addAction("Display Pack", new DisplayPackAction(pack));
         addAction("Add Pack Item", new AddPackItem(pack));
         addAction("Edit Pack Item", new EditPackItem(pack));
+        addAction("Change Weight Unit", new ChangeWeightUnit(pack));
 
         addAction("Close", Action.closeMenu(null));
     }

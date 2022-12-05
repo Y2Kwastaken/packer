@@ -1,6 +1,7 @@
 package sh.miles.packer.ui.packeditor.actions;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import lombok.NonNull;
 import sh.miles.packer.pack.Pack;
@@ -34,16 +35,27 @@ public class DisplayPackAction implements Action {
         boolean fullList = console.getBoolean("Display full list of items? (true/false) ");
         if (fullList) {
             final Map<String, PackList> items = pack.getContainer().getItems();
-            for (final String category : items.keySet()) {
+            for (Entry<String, PackList> entry : items.entrySet()) {
+                final String category = entry.getKey();
+                final PackList list = entry.getValue();
                 System.out.println("Category: " + category);
+                System.out.println("Number of Items: " + list.size());
+                System.out.println("Total Weight: " + list.getTotalWeight().getValue() + " "
+                        + list.getTotalWeight().getUnit().getSymbol());
+                System.out.println("Total Cost: " + list.getTotalCost());
                 System.out.println("===========");
-                final PackList list = items.get(category);
-                for (final PackItem item : list.getItems()) {
+                System.out.println("Items:");
+                for (int i = 0; i < list.size(); i++) {
+                    final PackItem item = list.getItem(i);
                     System.out.println("Name: " + item.getName());
-                    System.out.println(
-                            "Weight: " + item.getWeight().getValue() + " " + item.getWeight().getUnit().getSymbol());
+                    System.out.println("Description: " + item.getDescription());
+                    System.out.println("Weight: " + item.getWeight().getValue() + " "
+                            + item.getWeight().getUnit().getSymbol());
                     System.out.println("Cost: " + item.getCost());
+                    System.out.println("Link: " + item.getLink());
+                    System.out.println("Quantity: " + item.getQuantity());
                     System.out.println("===========");
+                    System.out.println();
                 }
             }
         }
